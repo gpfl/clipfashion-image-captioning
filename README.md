@@ -12,7 +12,7 @@
       - [Configure Conda Environment](#configure-conda-environment)
       - [Download DeepFashion-MultiModal](#download-deepfashion-multimodal)
     + [Parsing Data](#parsing-data)
-    + [Traning](#traning)
+    + [Training](#training)
       - [Checkpoints](#checkpoints)
       - [MLflow](#mlflow)
     + [Prediction](#prediction)
@@ -20,7 +20,7 @@
       - [nlg-eval installation](#nlg-eval-installation)
 
 ## Description 
-Creating meaningful descriptions for fashion images can improve product online searches, drive price strategies towards similar itens sold by competitors, and have an impact on overall sales. In this work, we tackled the task of image captioning by implementing two variations of **ClipCap** ([link to repo](https://github.com/rmokady/CLIP_prefix_caption)) multimodal architecture, using the images and caption data from **DeepFashion-MultiModal** ([link to repo](https://github.com/yumingj/DeepFashion-MultiModal)). 
+Creating meaningful descriptions for fashion images can improve product online searches, drive price strategies towards similar items sold by competitors, and have an impact on overall sales. In this work, we tackled the task of image captioning by implementing two variations of **ClipCap** ([link to repo](https://github.com/rmokady/CLIP_prefix_caption)) multimodal architecture, using the images and caption data from **DeepFashion-MultiModal** ([link to repo](https://github.com/yumingj/DeepFashion-MultiModal)). 
 
 
 ## DeepFashion-MultiModal
@@ -29,7 +29,7 @@ For our data, we used the DeepFashion-MultiModal dataset, a large-scale high-qua
 We divided the dataset in train set (36,162), validation set (3,191) and test set (3,191). Those splits were made using a stratified sampling strategy to correctly represent each department and group of fashion items present in the data. 
 
 ## ClipCap Architecture
-ClipCap uses [CLIP](https://github.com/openai/CLIP) embeddings as a prefix to the textual captions using a mapping network. A GPT-2 language is then fine-tuned to generate captions for the images. We tested two variations of ClipCap: one using CLIP's ViT embeddings and training both for the mapping network and fine-tunning a GPT-2 language model; and one that uses CLIP's RN50x4 embeddings and trains only the mapping network.
+ClipCap uses [CLIP](https://github.com/openai/CLIP) embeddings as a prefix to the textual captions using a mapping network. A GPT-2 language is then fine-tuned to generate captions for the images. We tested two variations of ClipCap: one using CLIP's ViT embeddings and training both for the mapping network and fine-tuning a GPT-2 language model; and one that uses CLIP's RN50x4 embeddings and trains only the mapping network.
 ![clipcap-arch](img/clipcap-arch.png)
 
 ## Metrics Evaluation
@@ -64,7 +64,7 @@ $ python parse_data.py --clip_model_type ViT-B/32
 $ python parse_data.py --clip_model_type RN50x4 
 ```
 
-### Traning
+### Training
 Our training loops follow ClipCap implementation and parameter values described in their repo. 
 #### ViT
 ```bash
@@ -92,13 +92,13 @@ $ python train.py \
     --is_rn
 ```
 #### Checkpoints
-During training, for each epoch we save a pytorch model checkpoint inside `checkpoints/` folder.
+During training, for each epoch we save a pytorch model checkpoint inside the `checkpoints/` folder.
 
 #### MLflow
 We used MLflow to control our experiments and compare results. Experiments are saved locally inside the `mlruns/` folder, and can be accessed running the MLflow UI local server (`mlflow ui`) in the repo's root folder.
 
 ### Prediction
-To generate predictions, set the `--model_path` argument to reflect the desired trained model saved on `checkpoints/` folder. A jupyter notebook is available in `notebooks/` folder to compare generated predictions against the textual description from DeepFashion-MM dataset.
+To generate predictions, set the `--model_path` argument to reflect the desired trained model saved on `checkpoints/` folder. A jupyter notebook is available on `notebooks/` folder to compare generated predictions against the textual description from DeepFashion-MM dataset.
 
 #### ViT
 ```bash
